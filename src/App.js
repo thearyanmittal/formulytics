@@ -27,11 +27,11 @@ function App() {
                     elem.style.left = bounds + "px";
                     clearInterval(id);
                   } else {
-                    t += 0.05;
-                    xPos = xPosStart + 50 * Math.sin(t);
-                    yPos = yPosStart + 50 * Math.cos(t);
+                    t -= 0.05;
+                    xPos = xPosStart + 50 * Math.cos(t);
+                    yPos = yPosStart + 50 * Math.sin(t);
                     elem.style.transform =
-                      "rotate(" + Math.cos(t) / Math.sin(t) + "deg)";
+                      "rotate(" + (180 / 3.14) * t + "deg)";
                     elem.style.top = yPos + "px";
                     elem.style.left = xPos + "px";
                   }
