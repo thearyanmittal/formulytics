@@ -19,7 +19,7 @@ let currentAverageSpeed = [90, 94, 100];
 let mainDriverName = "name";
 let zeroTime = 4962.963;
 
-let times = [90, 94, 100]; //times in seconds per racer
+let times = [88, 87, 88]; //times in seconds per racer
 let timeScaler = 90;
 
 function App() {
@@ -130,7 +130,7 @@ function App() {
 
                         elem[i].style.top = xPos + "px";
                         elem[i].style.left = yPos + "px";
-                        if (t[0] > -0.3 + (5 * Math.PI) / 2) {
+                        if (t[0] > -0.1 + (5 * Math.PI) / 2) {
                           animationActive = 0;
                           clearInterval(id);
                           //console.log("lap complete");
