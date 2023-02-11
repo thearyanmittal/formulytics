@@ -8,12 +8,14 @@ function App() {
         <div>
           <p>
             <button
+              id="resetButton"
               onClick={() => {
+                const slider = document.getElementById("speedSlider");
                 let id = null;
                 const elem = document.getElementById("animate");
-                let bounds = 350;
-                let xPosStart = bounds / 2;
-                let yPosStart = bounds / 2;
+                let bounds = 400;
+                let xPosStart = (bounds - 61) / 2;
+                let yPosStart = (bounds - 32) / 2;
                 let xPos = 0;
                 let yPos = 0;
                 let t = 0;
@@ -27,19 +29,29 @@ function App() {
                     elem.style.left = bounds + "px";
                     clearInterval(id);
                   } else {
-                    t -= 0.05;
-                    xPos = xPosStart + 50 * Math.cos(t);
-                    yPos = yPosStart + 50 * Math.sin(t);
+                    t += 0.05 * (Math.pow(slider.value / 50, 2) + 0.25);
+                    xPos = xPosStart + 150 * Math.cos(t);
+                    yPos = yPosStart + 150 * Math.sin(t);
                     elem.style.transform =
-                      "rotate(" + (180 / 3.14) * t + "deg)";
-                    elem.style.top = yPos + "px";
-                    elem.style.left = xPos + "px";
+                      "rotate(" + (90 + (-180 / Math.PI) * t) + "deg)";
+                    elem.style.top = xPos + "px";
+                    elem.style.left = yPos + "px";
                   }
                 }
               }}
             >
-              Click Me
+              Reset
             </button>
+            <label for="fader" id="speedLabel">
+              Speed{" "}
+            </label>
+            <input
+              type="range"
+              min="1"
+              max="100"
+              defaultValue="50"
+              id="speedSlider"
+            ></input>
           </p>
           <div id="container">
             <div id="animate"></div>

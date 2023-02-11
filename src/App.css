@@ -11,14 +11,33 @@
   width: 400px;
   height: 400px;
   position: relative;
-  background: gray;
+  background-color: transparent;
+  background-image: url("./images/track.png");
 }
 #animate {
-  width: 50px;
-  height: 50px;
+  width: 32px;
+  height: 61px;
   position: absolute;
-  background-color: black;
-  transform: rotate(45deg);
+  background-color: transparent;
+  background-image: url("./images/redcar.png");
+  transform: rotate(0deg);
+}
+
+#resetButton {
+  float: left;
+  position: relative;
+  top: 15px;
+}
+
+#speedSlider {
+  float: right;
+  position: relative;
+  top: 10px;
+}
+#speedLabel {
+  position: relative;
+  left: 50px;
+  top: 5px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
