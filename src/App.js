@@ -1,6 +1,29 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { createElement } from "react";
+import { useState } from "react";
+
+const name = [
+  "Lewis Hamilton 🇬🇧",
+  "Sebastian Vettel 🇩🇪",
+  "Valtteri Bottas 🇫🇮",
+  "Kimi Räikkönen 🇫🇮",
+  "Max Verstappen 🇳🇱",
+  "Felipe Massa 🇧🇷",
+  "Romain Grosjean 🇫🇷",
+  "Carlos Sainz 🇪🇸",
+  "Sergio Pérez 🇲🇽",
+  "Daniil Kvyat 🇷🇺",
+  "Fernando Alonso 🇪🇸",
+  "Nico Hülkenberg 🇩🇪",
+  "Esteban Ocon 🇫🇷",
+  "Lance Stroll 🇨🇦",
+  "Jolyon Palmer 🇬🇧",
+  "Stoffel Vandoorne 🇧🇪",
+  "Antonio Giovinazzi 🇮🇹",
+  "Marcus Ericsson 🇸🇪",
+  "Kevin Magnussen 🇩🇰",
+  "Daniel Ricciardo 🇦🇺",
+];
 
 let buttonCount = -1;
 let testTimes = [
@@ -8,11 +31,7 @@ let testTimes = [
   [57, "Valtteri Bottas 🇫🇮", 87.507, 0, 4975.415, 2],
   [56, "Sergio Pérez 🇲🇽", 88.336, 0, 4979.243, 13],
 ];
-let driverNames = [
-  "Sebastian Vettel 🇩🇪",
-  "Valtteri Bottas 🇫🇮",
-  "Sergio Pérez 🇲🇽",
-];
+let driverNames = [name[1], name[2], name[8]];
 let driverArrays = testTimes;
 let averageSpeed = [90, 94, 100];
 let currentAverageSpeed = [90, 94, 100];
@@ -23,6 +42,7 @@ let times = [88, 87, 88]; //times in seconds per racer
 let timeScaler = 90;
 
 function App() {
+  const [selectedRacers, setSelectedRacers] = useState([]);
   return (
     <div className="App">
       <header className="App-header">
@@ -34,12 +54,17 @@ function App() {
                   id="resetButton"
                   onClick={() => {
                     for (let i = 0; i < times.length; i++) {
-                      document.getElementById("tableName" + i).textContent =
+                      document.getElementById("maintableName" + i).textContent =
                         driverNames[i];
-                      document.getElementById("tableLap" + i).textContent =
+                      document.getElementById("maintableLap" + i).textContent =
                         driverArrays[i][0];
-                      document.getElementById("tablePlace" + i).textContent =
-                        driverArrays[i][5];
+                      document.getElementById(
+                        "maintablePlace" + i
+                      ).textContent = driverArrays[i][5];
+                    }
+                    for (let i = 0; i < name.length; i++) {
+                      document.getElementById("tableName" + i).textContent =
+                        name[i];
                     }
 
                     buttonCount += 1;
@@ -161,36 +186,259 @@ function App() {
               </div>
             </div>
             <div className="col">
-              <table class="table">
+              <table class="mainTable row" id="table">
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
+                  <tr class="tableHeader">
                     <th scope="col">Name</th>
                     <th scope="col">Place</th>
                     <th scope="col">Lap</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr id="row0">
-                    <th scope="row">1</th>
-                    <td id="tableName0">asdf</td>
-                    <td id="tablePlace0">1</td>
-                    <td id="tableLap0">asdf</td>
-                  </tr>
-                  <tr id="row1">
-                    <th scope="row">2</th>
-                    <td id="tableName1">asdf</td>
-                    <td id="tablePlace1">2</td>
-                    <td id="tableLap1">asdf</td>
-                  </tr>
-                  <tr id="row2">
-                    <th scope="row">3</th>
-                    <td id="tableName2">asdf</td>
-                    <td id="tablePlace2">12</td>
-                    <td id="tableLap2">asdf</td>
-                  </tr>
-                </tbody>
+                {selectedRacers.map((val) => {
+                  {
+                    console.log(val.name);
+                  }
+                  <thead className="row" key={val.get("name")}>
+                    <tr id="mainRow0">
+                      <td id="maintableName0">{val.get("name")}</td>
+                      <td id="maintablePlace0">{val.get("place")}</td>
+                      <td id="maintableLap0">{val.get("lap")}</td>
+                    </tr>
+                  </thead>;
+                })}
               </table>
+            </div>
+
+            <div id="bottomRow" className="row">
+              <div className="col">
+                <table class="table">
+                  <thead>
+                    <tr class="tableHeader">
+                      <th scope="col">Select</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Place</th>
+                      <th scope="col">Lap</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr id="row0" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                        onClick={() => {
+                          setSelectedRacers((selectedRacers) => [
+                            ...selectedRacers,
+                            {
+                              name: document.getElementById("tableName0")
+                                .innerText,
+                              place:
+                                document.getElementById("tablePlace0")
+                                  .innerText,
+                              lap: document.getElementById("tableLap0")
+                                .innerText,
+                            },
+                          ]);
+                        }}
+                      ></input>
+                      <td id="tableName0">Testing</td>
+                      <td id="tablePlace0">1</td>
+                      <td id="tableLap0">asdf</td>
+                    </tr>
+                    <tr id="row1" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName1">asdf</td>
+                      <td id="tablePlace1">2</td>
+                      <td id="tableLap1">asdf</td>
+                    </tr>
+                    <tr id="row2" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName2">asdf</td>
+                      <td id="tablePlace2">12</td>
+                      <td id="tableLap2">asdf</td>
+                    </tr>
+                    <tr id="row3" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName3">asdf</td>
+                      <td id="tablePlace3">12</td>
+                      <td id="tableLap3">asdf</td>
+                    </tr>
+                    <tr id="row4" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName4">asdf</td>
+                      <td id="tablePlace4">12</td>
+                      <td id="tableLap4">asdf</td>
+                    </tr>
+                    <tr id="row5" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName5">asdf</td>
+                      <td id="tablePlace5">12</td>
+                      <td id="tableLap5">asdf</td>
+                    </tr>
+                    <tr id="row6" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName6">asdf</td>
+                      <td id="tablePlace6">12</td>
+                      <td id="tableLap6">asdf</td>
+                    </tr>
+                    <tr id="row7" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName7">asdf</td>
+                      <td id="tablePlace7">12</td>
+                      <td id="tableLap7">asdf</td>
+                    </tr>
+                    <tr id="row8" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName8">asdf</td>
+                      <td id="tablePlace8">12</td>
+                      <td id="tableLap8">asdf</td>
+                    </tr>
+                    <tr id="row9" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName9">asdf</td>
+                      <td id="tablePlace9">12</td>
+                      <td id="tableLap9">asdf</td>
+                    </tr>
+                    <tr id="row10" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName10">asdf</td>
+                      <td id="tablePlace10">12</td>
+                      <td id="tableLap10">asdf</td>
+                    </tr>
+                    <tr id="row11" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName11">asdf</td>
+                      <td id="tablePlace11">12</td>
+                      <td id="tableLap11">asdf</td>
+                    </tr>
+                    <tr id="row12" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName12">asdf</td>
+                      <td id="tablePlace12">12</td>
+                      <td id="tableLap12">asdf</td>
+                    </tr>
+                    <tr id="row13" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName13">asdf</td>
+                      <td id="tablePlace13">12</td>
+                      <td id="tableLap13">asdf</td>
+                    </tr>
+                    <tr id="row14" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName14">asdf</td>
+                      <td id="tablePlace14">12</td>
+                      <td id="tableLap14">asdf</td>
+                    </tr>
+                    <tr id="row15" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName15">asdf</td>
+                      <td id="tablePlace15">12</td>
+                      <td id="tableLap15">asdf</td>
+                    </tr>
+                    <tr id="row16" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName16">asdf</td>
+                      <td id="tablePlace16">12</td>
+                      <td id="tableLap16">asdf</td>
+                    </tr>
+                    <tr id="row17" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName17">asdf</td>
+                      <td id="tablePlace17">12</td>
+                      <td id="tableLap17">asdf</td>
+                    </tr>
+                    <tr id="row18" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName18">asdf</td>
+                      <td id="tablePlace18">12</td>
+                      <td id="tableLap18">asdf</td>
+                    </tr>
+                    <tr id="row19" class="unusedRow">
+                      <input
+                        type="checkbox"
+                        id="select0"
+                        value="check0"
+                      ></input>
+                      <td id="tableName19">asdf</td>
+                      <td id="tablePlace19">12</td>
+                      <td id="tableLap19">asdf</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="col"></div>
             </div>
           </div>
         </div>
@@ -200,8 +448,8 @@ function App() {
 }
 
 function parseData(data) {
-  let name = data[1];
-  let driverIndex = driverNames.indexOf(name);
+  let Drivername = data[1];
+  let driverIndex = name.indexOf(Drivername);
   if (driverIndex != -1) {
     driverArrays[driverIndex] = data;
   } else {
