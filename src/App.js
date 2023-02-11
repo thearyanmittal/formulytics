@@ -24,8 +24,30 @@ const name = [
   "Kevin Magnussen 🇩🇰",
   "Daniel Ricciardo 🇦🇺",
 ];
+let driverSelected = [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+];
 
-let buttonCount = -1;
+let buttonCount = 0;
 let testTimes = [
   [57, "Sebastian Vettel 🇩🇪", 88.142, 0, 4962.963, 1],
   [57, "Valtteri Bottas 🇫🇮", 87.507, 0, 4975.415, 2],
@@ -33,9 +55,9 @@ let testTimes = [
 ];
 let driverNames = [name[1], name[2], name[8]];
 let driverArrays = testTimes;
-let averageSpeed = [90, 94, 100];
-let currentAverageSpeed = [90, 94, 100];
-let mainDriverName = "name";
+let averageSpeed = [driverArrays[0][2], driverArrays[1][2], driverArrays[2][2]];
+let currentAverageSpeed = averageSpeed;
+let mainDriverName = driverNames[0];
 let zeroTime = 4962.963;
 
 let times = [88, 87, 88]; //times in seconds per racer
@@ -49,11 +71,15 @@ function App() {
         <div>
           <div className="row d-flex flex-direction-row">
             <div id="simulation" className="col">
+              <p id="titleImage">Formulytics</p>
               <p>
                 <button
                   id="resetButton"
                   onClick={() => {
+                    document.getElementById("resetButton").style.visibility =
+                      "hidden";
                     for (let i = 0; i < times.length; i++) {
+                      //3 main drivers
                       document.getElementById("maintableName" + i).textContent =
                         driverNames[i];
                       document.getElementById("maintableLap" + i).textContent =
@@ -63,11 +89,11 @@ function App() {
                       ).textContent = driverArrays[i][5];
                     }
                     for (let i = 0; i < name.length; i++) {
+                      //other drivers
                       document.getElementById("tableName" + i).textContent =
                         name[i];
                     }
 
-                    buttonCount += 1;
                     /*num of cars must be <=5*/
                     const numCars = 3;
                     let startPos =
@@ -88,7 +114,7 @@ function App() {
                         }
                         console.log(currentAverageSpeed[i]);
                       }
-                      parseData(testTimes[buttonCount]);
+                      //parseData(testTimes[buttonCount]); //but do new data here instead of that
                     }
 
                     const slider = document.getElementById("speedSlider");
@@ -113,6 +139,7 @@ function App() {
                     let yPosStart = (bounds - carHeight) / 2;
                     let xPos = 0;
                     let yPos = 0;
+                    let reset = 0;
                     let t = [
                       Math.PI / 2,
                       Math.PI / 2,
@@ -155,9 +182,11 @@ function App() {
 
                         elem[i].style.top = xPos + "px";
                         elem[i].style.left = yPos + "px";
-                        if (t[0] > -0.1 + (5 * Math.PI) / 2) {
+                        if (!reset && t[0] > -0.1 + (5 * Math.PI) / 2) {
                           animationActive = 0;
                           clearInterval(id);
+                          startNextLap();
+                          reset = 1;
                           //console.log("lap complete");
                         }
                       }
@@ -186,26 +215,39 @@ function App() {
               </div>
             </div>
             <div className="col">
-              <table class="mainTable row" id="table">
+              <table class="mainTable">
                 <thead>
                   <tr class="tableHeader">
                     <th scope="col">Name</th>
                     <th scope="col">Place</th>
                     <th scope="col">Lap</th>
+                    <th scope="col">Win %</th>
                   </tr>
                 </thead>
-                {selectedRacers.map((val) => {
-                  {
-                    console.log(val.name);
-                  }
-                  <thead className="row" key={val.get("name")}>
-                    <tr id="mainRow0">
-                      <td id="maintableName0">{val.get("name")}</td>
-                      <td id="maintablePlace0">{val.get("place")}</td>
-                      <td id="maintableLap0">{val.get("lap")}</td>
-                    </tr>
-                  </thead>;
-                })}
+                <tbody>
+                  <tr id="mainRow0">
+                    <td id="maintableName0">Testing</td>
+                    <td id="maintablePlace0">1</td>
+                    <td id="maintableLap0">0</td>
+                    <td id="maintableWin0">0%</td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr id="mainRow1">
+                    <td id="maintableName1">Testing</td>
+                    <td id="maintablePlace1">1</td>
+                    <td id="maintableLap1">0</td>
+                    <td id="maintableWin1">0%</td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr id="mainRow2">
+                    <td id="maintableName2">Testing</td>
+                    <td id="maintablePlace2">1</td>
+                    <td id="maintableLap2">0</td>
+                    <td id="maintableWin2">0%</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
 
@@ -227,213 +269,259 @@ function App() {
                         id="select0"
                         value="check0"
                         onClick={() => {
-                          setSelectedRacers((selectedRacers) => [
-                            ...selectedRacers,
-                            {
-                              name: document.getElementById("tableName0")
-                                .innerText,
-                              place:
-                                document.getElementById("tablePlace0")
-                                  .innerText,
-                              lap: document.getElementById("tableLap0")
-                                .innerText,
-                            },
-                          ]);
+                          selectDriver(0);
                         }}
                       ></input>
                       <td id="tableName0">Testing</td>
                       <td id="tablePlace0">1</td>
-                      <td id="tableLap0">asdf</td>
+                      <td id="tableLap0">0</td>
                     </tr>
                     <tr id="row1" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select1"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(1);
+                        }}
                       ></input>
-                      <td id="tableName1">asdf</td>
+                      <td id="tableName1">0</td>
                       <td id="tablePlace1">2</td>
-                      <td id="tableLap1">asdf</td>
+                      <td id="tableLap1">0</td>
                     </tr>
                     <tr id="row2" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select2"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(2);
+                        }}
                       ></input>
-                      <td id="tableName2">asdf</td>
+                      <td id="tableName2">0</td>
                       <td id="tablePlace2">12</td>
-                      <td id="tableLap2">asdf</td>
+                      <td id="tableLap2">0</td>
                     </tr>
                     <tr id="row3" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select3"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(3);
+                        }}
                       ></input>
-                      <td id="tableName3">asdf</td>
+                      <td id="tableName3">0</td>
                       <td id="tablePlace3">12</td>
-                      <td id="tableLap3">asdf</td>
+                      <td id="tableLap3">0</td>
                     </tr>
                     <tr id="row4" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select4"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(4);
+                        }}
                       ></input>
-                      <td id="tableName4">asdf</td>
+                      <td id="tableName4">0</td>
                       <td id="tablePlace4">12</td>
-                      <td id="tableLap4">asdf</td>
+                      <td id="tableLap4">0</td>
                     </tr>
                     <tr id="row5" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select5"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(5);
+                        }}
                       ></input>
-                      <td id="tableName5">asdf</td>
+                      <td id="tableName5">0</td>
                       <td id="tablePlace5">12</td>
-                      <td id="tableLap5">asdf</td>
+                      <td id="tableLap5">0</td>
                     </tr>
                     <tr id="row6" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select6"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(6);
+                        }}
                       ></input>
-                      <td id="tableName6">asdf</td>
+                      <td id="tableName6">0</td>
                       <td id="tablePlace6">12</td>
-                      <td id="tableLap6">asdf</td>
+                      <td id="tableLap6">0</td>
                     </tr>
                     <tr id="row7" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select7"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(7);
+                        }}
                       ></input>
-                      <td id="tableName7">asdf</td>
+                      <td id="tableName7">0</td>
                       <td id="tablePlace7">12</td>
-                      <td id="tableLap7">asdf</td>
+                      <td id="tableLap7">0</td>
                     </tr>
                     <tr id="row8" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select8"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(8);
+                        }}
                       ></input>
-                      <td id="tableName8">asdf</td>
+                      <td id="tableName8">0</td>
                       <td id="tablePlace8">12</td>
-                      <td id="tableLap8">asdf</td>
+                      <td id="tableLap8">0</td>
                     </tr>
                     <tr id="row9" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select9"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(9);
+                        }}
                       ></input>
-                      <td id="tableName9">asdf</td>
+                      <td id="tableName9">0</td>
                       <td id="tablePlace9">12</td>
-                      <td id="tableLap9">asdf</td>
+                      <td id="tableLap9">0</td>
                     </tr>
                     <tr id="row10" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select10"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(10);
+                        }}
                       ></input>
-                      <td id="tableName10">asdf</td>
+                      <td id="tableName10">0</td>
                       <td id="tablePlace10">12</td>
-                      <td id="tableLap10">asdf</td>
+                      <td id="tableLap10">0</td>
                     </tr>
                     <tr id="row11" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select11"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(11);
+                        }}
                       ></input>
-                      <td id="tableName11">asdf</td>
+                      <td id="tableName11">0</td>
                       <td id="tablePlace11">12</td>
-                      <td id="tableLap11">asdf</td>
+                      <td id="tableLap11">0</td>
                     </tr>
                     <tr id="row12" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select12"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(12);
+                        }}
                       ></input>
-                      <td id="tableName12">asdf</td>
+                      <td id="tableName12">0</td>
                       <td id="tablePlace12">12</td>
-                      <td id="tableLap12">asdf</td>
+                      <td id="tableLap12">0</td>
                     </tr>
                     <tr id="row13" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select13"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(13);
+                        }}
                       ></input>
-                      <td id="tableName13">asdf</td>
+                      <td id="tableName13">0</td>
                       <td id="tablePlace13">12</td>
-                      <td id="tableLap13">asdf</td>
+                      <td id="tableLap13">0</td>
                     </tr>
                     <tr id="row14" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select14"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(14);
+                        }}
                       ></input>
-                      <td id="tableName14">asdf</td>
+                      <td id="tableName14">0</td>
                       <td id="tablePlace14">12</td>
-                      <td id="tableLap14">asdf</td>
+                      <td id="tableLap14">0</td>
                     </tr>
                     <tr id="row15" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select15"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(15);
+                        }}
                       ></input>
-                      <td id="tableName15">asdf</td>
+                      <td id="tableName15">0</td>
                       <td id="tablePlace15">12</td>
-                      <td id="tableLap15">asdf</td>
+                      <td id="tableLap15">0</td>
                     </tr>
                     <tr id="row16" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select16"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(16);
+                        }}
                       ></input>
-                      <td id="tableName16">asdf</td>
+                      <td id="tableName16">0</td>
                       <td id="tablePlace16">12</td>
-                      <td id="tableLap16">asdf</td>
+                      <td id="tableLap16">0</td>
                     </tr>
                     <tr id="row17" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select17"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(17);
+                        }}
                       ></input>
-                      <td id="tableName17">asdf</td>
+                      <td id="tableName17">0</td>
                       <td id="tablePlace17">12</td>
-                      <td id="tableLap17">asdf</td>
+                      <td id="tableLap17">0</td>
                     </tr>
                     <tr id="row18" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select18"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(18);
+                        }}
                       ></input>
-                      <td id="tableName18">asdf</td>
+                      <td id="tableName18">0</td>
                       <td id="tablePlace18">12</td>
-                      <td id="tableLap18">asdf</td>
+                      <td id="tableLap18">0</td>
                     </tr>
                     <tr id="row19" class="unusedRow">
                       <input
                         type="checkbox"
-                        id="select0"
+                        id="select19"
                         value="check0"
+                        onClick={() => {
+                          selectDriver(19);
+                        }}
                       ></input>
-                      <td id="tableName19">asdf</td>
+                      <td id="tableName19">0</td>
                       <td id="tablePlace19">12</td>
-                      <td id="tableLap19">asdf</td>
+                      <td id="tableLap19">0</td>
                     </tr>
                   </tbody>
                 </table>
@@ -472,6 +560,44 @@ function parseData(data) {
   if (name === mainDriverName) {
     zeroTime = totalTime;
   }
+}
+
+function delay(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+async function startNextLap() {
+  await delay(1000);
+  document.getElementById("resetButton").click();
+}
+
+function selectDriver(x) {
+  let numOfSelected = numberOfChecks();
+  if (numOfSelected < 3 && driverSelected[x] === false) {
+    driverSelected[x] = true;
+  } else if (driverSelected[x] === true) {
+    driverSelected[x] = false;
+  } else {
+    document.getElementById("select" + x).click();
+  }
+  let j = 0;
+  for (let i = 0; i < name.length; i++) {
+    if (driverSelected[i]) {
+      driverNames[j] = name[i];
+      j++;
+    }
+  }
+  document.getElementById("resetButton").click();
+}
+
+function numberOfChecks() {
+  let num = 0;
+  for (let i = 0; i < driverSelected.length; i++) {
+    if (driverSelected[i] === true) {
+      num++;
+    }
+  }
+  return num;
 }
 
 export default App;

@@ -16,7 +16,6 @@
   background-image: url("./images/track.png");
   background-size: contain;
   margin-bottom: 100px;
-  margin-top: 100px;
   margin-left: 50px;
 }
 .animate {
@@ -53,24 +52,21 @@
   float: left;
   position: relative;
   top: 10%;
-  margin-top: 100px;
   margin-left: 50px;
 }
 
 #speedSlider {
+  margin: auto;
+  width: 50%;
+  position: static;
   float: left;
-  width: 30%;
-  position: relative;
-  bottom: 15%;
-  left: 10%;
-  margin-top: 100px;
 }
 #speedLabel {
+  margin: auto;
+  width: 50%;
+  position: static;
   float: left;
-  position: relative;
-  left: 9%;
-  top: 50%;
-  margin-top: 95px;
+  left: 30%;
 }
 
 #bottomRow {
@@ -83,6 +79,17 @@
 
 .mainTable {
   margin-top: 50px;
+  width: 80%;
+}
+
+#titleImage {
+  font-weight: 1000;
+  font-size: 68px;
+  color: lightskyblue;
+}
+
+#simulation {
+  padding-left: 100px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
