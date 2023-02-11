@@ -11,6 +11,7 @@
   width: 400px;
   height: 400px;
   position: relative;
+  top: 10%;
   background-color: transparent;
   background-image: url("./images/track.png");
   background-size: contain;
@@ -24,22 +25,45 @@
   background-size: contain;
   transform: rotate(0deg);
 }
+#animate1 {
+  background-image: url("./images/greencar2.png");
+}
+#animate2 {
+  background-image: url("./images/bluecar2.png");
+}
+
+#row0 {
+  background-color: lightsalmon;
+}
+#row1 {
+  background-color: lightgreen;
+}
+#row2 {
+  background-color: lightskyblue;
+}
 
 #resetButton {
   float: left;
   position: relative;
-  top: 15px;
+  top: 10%;
 }
 
 #speedSlider {
-  float: right;
+  float: left;
+  width: 30%;
   position: relative;
-  top: 10px;
+  top: 20%;
+  left: 10%;
 }
 #speedLabel {
+  float: left;
   position: relative;
-  left: 50px;
-  top: 5px;
+  left: 9%;
+  top: 50%;
+}
+
+.table {
+  color: white;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -61,6 +85,9 @@
 
 .App-link {
   color: #61dafb;
+}
+
+#simulation {
 }
 
 @keyframes App-logo-spin {
