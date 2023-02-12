@@ -53,16 +53,17 @@ let buttonCount = 0;
 let currVals =
   //lap, name, laptime, pitstoptime, totaltime, position, win percent
   fetch(
-    "http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/retrieveCurrData",
+    "https://damp-sierra-23787.herokuapp.com/http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/retrieveCurrData",
     {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       headers: {
         "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     }
-  );
+  )
+    .then((val) => val.json)
+    .then((result) => console.log(result));
 
 let testTimes = [
   [57, "Sebastian Vettel 🇩🇪", 88.142, 0, 4962.963, 1],
@@ -81,6 +82,7 @@ let timeScaler = 90;
 
 function App() {
   const [selectedRacers, setSelectedRacers] = useState([]);
+  console.log(currVals);
   return (
     <div className="App">
       <header className="App-header">
