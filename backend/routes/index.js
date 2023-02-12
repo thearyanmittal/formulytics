@@ -1,8 +1,10 @@
 var express = require("express");
 var router = express.Router();
+
 const accountSid = "AC5fc23366d0f4dabc4c6d64182dbfa22e";
 const authToken = "f8d2fcd3c91f1e43f86ccf13d81c69f6";
 const phoneNumber = "+18339042854";
+
 /* GET home page. 
 requires number
 */
