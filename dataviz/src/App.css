@@ -37,18 +37,20 @@
   background-color: grey;
 }
 
-#mainRow0 {
+#mainRow0,
+#statRow0 {
   background-color: lightsalmon;
 }
-#mainRow1 {
+#mainRow1,
+#statRow1 {
   background-color: lightgreen;
 }
-#mainRow2 {
+#mainRow2,
+#statRow2 {
   background-color: lightskyblue;
 }
 
 #resetButton {
-  margin-top: 10px;
   width: 50%;
 }
 .speed-text {
@@ -74,7 +76,8 @@
   color: white;
 }
 
-.mainTable {
+.mainTable,
+.statTable {
   margin-top: 100px;
   width: 90%;
 }
@@ -87,6 +90,14 @@
 
 #simulation {
   padding-left: 100px;
+}
+
+#timeText {
+  padding-left: 30px;
+}
+
+#statUp {
+  background-image: url("./images/greenTry.png");
 }
 
 @media (prefers-reduced-motion: no-preference) {

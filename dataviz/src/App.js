@@ -49,7 +49,25 @@ let driverSelected = [
   false,
 ];
 
+let parseFront = [0, 11, 14, 11, 14, 18, 18, 15, 19, 1, 1, 1, 1];
+let parseEnd = [0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 3];
+
 let buttonCount = 0;
+let racerArr = Array(20)
+  .fill()
+  .map(() => Array(12));
+let currVals =
+  //lap, name, laptime, pitstoptime, totaltime, position, win percent
+  fetch(
+    "https://damp-sierra-23787.herokuapp.com/http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/retrieveCurrData"
+  )
+    .then((response) => response.text())
+    .then((data) => {
+      racerArr = JSON.parse(data);
+      console.log(data);
+      racerArr.push(data);
+    });
+
 let testTimes = [
   [57, "Sebastian Vettel 🇩🇪", 88.142, 0, 4962.963, 1],
   [57, "Valtteri Bottas 🇫🇮", 87.507, 0, 4975.415, 2],
@@ -67,6 +85,7 @@ let timeScaler = 90;
 
 function App() {
   const [selectedRacers, setSelectedRacers] = useState([]);
+  console.log(currVals);
   return (
     <div className="App">
       <header className="App-header">
@@ -101,6 +120,7 @@ function App() {
                 <div id="animate4" className="animate"></div>
               </div>
             </div>
+
             <div className="col" align="center">
               <table class="mainTable">
                 <thead>
@@ -116,7 +136,7 @@ function App() {
                     <td id="maintableName0">Driver 1</td>
                     <td id="maintablePlace0">1</td>
                     <td id="maintableLap0">0</td>
-                    <td id="maintableWin0">0%</td>
+                    <td id="maintableWin0">27.3%</td>
                   </tr>
                 </tbody>
                 <tbody>
@@ -124,7 +144,7 @@ function App() {
                     <td id="maintableName1">Driver 2</td>
                     <td id="maintablePlace1">2</td>
                     <td id="maintableLap1">0</td>
-                    <td id="maintableWin1">0%</td>
+                    <td id="maintableWin1">8.0%</td>
                   </tr>
                 </tbody>
                 <tbody>
@@ -132,10 +152,54 @@ function App() {
                     <td id="maintableName2">Driver 3</td>
                     <td id="maintablePlace2">3</td>
                     <td id="maintableLap2">0</td>
-                    <td id="maintableWin2">0%</td>
+                    <td id="maintableWin2">3.3%</td>
                   </tr>
                 </tbody>
               </table>
+
+              <table class="statTable">
+                <thead>
+                  <tr class="tableHeader">
+                    <th scope="col">%UP</th>
+                    <th scope="col">%DOWN</th>
+                    <th scope="col">%STAY</th>
+                    <th scope="col">%POD</th>
+                    <th scope="col">%WIN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="statRow0">
+                    <td id="probUp0">0.0%</td>
+                    <td id="probDown0">72.7%</td>
+                    <td id="probSame0">27.3%</td>
+                    <td id="probPodium0">64.4%</td>
+                    <td id="probWin0">27.3%</td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr id="statRow1">
+                    <td id="probUp1">8.0%</td>
+                    <td id="probDown1">75.3%</td>
+                    <td id="probSame1">16.7%</td>
+                    <td id="probPodium1">44.0%</td>
+                    <td id="probWin1">8.0%</td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr id="statRow2">
+                    <td id="probUp2">11.2%</td>
+                    <td id="probDown2">83.6%</td>
+                    <td id="probSame2">5.2%</td>
+                    <td id="probPodium2">16.4%</td>
+                    <td id="probWin2">3.3%</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+                <p id="timeText" align="left">
+                  RaceTime: 0:00:00
+                </p>
+              </div>
               <div align="center">
                 <button
                   id="resetButton"
@@ -152,7 +216,7 @@ function App() {
               <table class="table">
                 <thead>
                   <tr class="tableHeader">
-                    <th scope="col">Select</th>
+                    <th scope="col">Select 3</th>
                     <th scope="col">Name</th>
                     <th scope="col">Place</th>
                     <th scope="col">Lap</th>
@@ -168,7 +232,7 @@ function App() {
                         selectDriver(0);
                       }}
                     ></input>
-                    <td id="tableName0">Testing</td>
+                    <td id="tableName0">0</td>
                     <td id="tablePlace0">1</td>
                     <td id="tableLap0">0</td>
                   </tr>
@@ -421,6 +485,87 @@ function App() {
                   </tr>
                 </tbody>
               </table>
+              <div>
+                <input
+                  type="text"
+                  placeholder="(000) 000-0000"
+                  id="phone-input"
+                  className="m-3"
+                  onKeyDown={(e) => {
+                    if (
+                      [
+                        "0",
+
+                        "1",
+
+                        "2",
+
+                        "3",
+
+                        "4",
+
+                        "5",
+
+                        "6",
+
+                        "7",
+
+                        "8",
+
+                        "9",
+
+                        "Backspace",
+
+                        "Delete",
+                      ].indexOf(e.key) !== -1
+                    ) {
+                    } else {
+                      e.preventDefault();
+                    }
+                  }}
+                  onKeyUp={() => {
+                    const inputField = document.getElementById("phone-input");
+
+                    const formattedInput = (value) => {
+                      if (!value) return value;
+
+                      const phoneNumber = value.replace(/[^\d]/g, "");
+
+                      const phoneNumberLength = phoneNumber.length;
+
+                      if (phoneNumberLength < 4) return phoneNumber;
+
+                      if (phoneNumberLength < 7) {
+                        return `(${phoneNumber.slice(
+                          0,
+                          3
+                        )}) ${phoneNumber.slice(3)}`;
+                      }
+
+                      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+                        3,
+
+                        6
+                      )}-${phoneNumber.slice(6, 10)}`;
+                    };
+
+                    inputField.value = formattedInput(inputField.value);
+                  }}
+                />
+              </div>
+              <div className="p-3">
+                <button
+                  className=""
+                  onClick={() => {
+                    fetch(
+                      "https://damp-sierra-23787.herokuapp.com/http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/getStarted?number=" +
+                        document.getElementById("phone-input").value
+                    );
+                  }}
+                >
+                  Subscribe
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -481,7 +626,15 @@ function selectDriver(x) {
   for (let i = 0; i < name.length; i++) {
     if (driverSelected[i]) {
       driverNames[j] = name[i];
+
       j++;
+    }
+  }
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (racerArr[i][1] === driverNames[j]) {
+        driverArrays[i] = racerArr[i];
+      }
     }
   }
   if (!reseting) carCode();
@@ -501,6 +654,7 @@ function carCode() {
   document.getElementById("resetButton").style.visibility = "hidden";
   for (let i = 0; i < times.length; i++) {
     //3 main drivers
+    console.log(driverArrays);
     document.getElementById("maintableName" + i).textContent = driverNames[i];
     document.getElementById("maintableLap" + i).textContent =
       driverArrays[i][0];
@@ -509,7 +663,9 @@ function carCode() {
   }
   for (let i = 0; i < name.length; i++) {
     //other drivers
-    document.getElementById("tableName" + i).textContent = name[i];
+    document.getElementById("tableName" + i).textContent = racerArr[i][1];
+    document.getElementById("tablePlace" + i).textContent = racerArr[i][5];
+    document.getElementById("tableLap" + i).textContent = racerArr[i][0];
   }
 
   /*num of cars must be <=5*/
@@ -535,7 +691,6 @@ function carCode() {
   const slider = document.getElementById("speedSlider");
   let id = null;
   let elem = [];
-  let shortestTime = Number.MAX_SAFE_INTEGER;
   for (let i = 0; i < numCars; i++) {
     elem[i] = document.getElementById("animate" + i);
   }
@@ -583,6 +738,17 @@ function carCode() {
         yPosStart +
         (maxRadius - (carWidth + 2) * (numCars - i - 1)) *
           Math.sin(t[i] + tOffset);
+      let timeSeconds = zeroTime + (t[0] / 2 / Math.PI) * 90;
+      let timeMins = timeSeconds / 60;
+      let timeHours = timeMins / 60;
+      let formatedTime = "";
+      if (timeHours !== 0) formatedTime += Math.floor(timeHours) + ":";
+      if (timeMins % 60 <= 9) formatedTime += "0";
+      formatedTime += Math.floor(timeMins % 60) + ".";
+      if (timeSeconds % 60 <= 9) formatedTime += "0";
+      formatedTime += Math.floor(timeSeconds % 60);
+      document.getElementById("timeText").textContent =
+        "Race Time: " + formatedTime;
 
       elem[i].style.transform =
         "rotate(" + (180 + (-180 / Math.PI) * (t[i] + tOffset)) + "deg)";
