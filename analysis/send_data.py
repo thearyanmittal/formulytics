@@ -1,5 +1,6 @@
 import pandas as pd
 import requests
+import time
 
 out = pd.read_excel('data/out.xlsx')
 
@@ -14,3 +15,4 @@ for (index, row) in out.iterrows():
     requests.post(
         f'http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/addRacerData?name={name}&lap={lap}&laptime={laptime}&pitstoptime={pitstoptime}&prevelapsed={prevelapsed}&position={position}&probability={probability}'
     )
+    time.sleep(.01)
