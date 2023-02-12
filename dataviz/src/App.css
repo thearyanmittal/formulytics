@@ -11,12 +11,11 @@
   width: 400px;
   height: 400px;
   position: relative;
-  top: 10%;
   background-color: transparent;
   background-image: url("./images/track.png");
   background-size: contain;
-  margin-bottom: 100px;
-  margin-left: 50px;
+  margin-bottom: 25px;
+  margin-left: 90px;
 }
 .animate {
   width: 60px;
@@ -49,28 +48,26 @@
 }
 
 #resetButton {
-  float: left;
-  position: relative;
-  top: 10%;
-  margin-left: 50px;
+  margin-top: 10px;
+  width: 50%;
+}
+.speed-text {
+  width: fit-content;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 #speedSlider {
-  margin: auto;
-  width: 50%;
-  position: static;
-  float: left;
+  width: 30%;
 }
 #speedLabel {
-  margin: auto;
   width: 50%;
-  position: static;
-  float: left;
-  left: 30%;
 }
 
 #bottomRow {
   bottom: 20px;
+  margin-left: 25%;
+  width: 50%;
 }
 
 .table {
@@ -78,8 +75,8 @@
 }
 
 .mainTable {
-  margin-top: 50px;
-  width: 80%;
+  margin-top: 100px;
+  width: 90%;
 }
 
 #titleImage {
