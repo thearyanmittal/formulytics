@@ -1,10 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-const accountSid = "AC5fc23366d0f4dabc4c6d64182dbfa22e";
-const authToken = "f8d2fcd3c91f1e43f86ccf13d81c69f6";
-const phoneNumber = "+18339042854";
-
 /* GET home page. 
 requires number
 */
@@ -46,7 +42,7 @@ router.post("/add", function (req, res, next) {
   res.send("");
 });
 
-/**
+/**`
  * Inputs name of racer they want to be updated for and their number
  */
 router.post("/addRacerData", function (req, res, next) {
@@ -81,7 +77,16 @@ router.post("/addRacerData", function (req, res, next) {
       { upsert: true }
     );
   });
-
+  //move up, move down, stay same,get on the podium, winning
+  console.log(
+    (
+      parseFloat(
+        probability
+          .split(", ")[4]
+          .substring(0, probability.split(", ")[4].length - 1)
+      ) * 100
+    ).toFixed(1) + "%"
+  );
   require("dotenv").config();
   const twilioClient = require("twilio")(accountSid, authToken);
   dataCollection = database.collection("data");
@@ -108,8 +113,15 @@ router.post("/addRacerData", function (req, res, next) {
             name.substring(0, name.length - 5) +
             " is in position " +
             position +
-            ". They're expected to finish in position " +
-            probability,
+            ". Their chance of winning is " +
+            (
+              parseFloat(
+                probability
+                  .split(", ")[4]
+                  .substring(0, probability.split(", ")[4].length - 1)
+              ) * 100
+            ).toFixed(1) +
+            "%",
           from: phoneNumber,
           to: entry.number,
         })
@@ -158,7 +170,20 @@ router.get("/retrieveCurrData", function (req, res, next) {
     .find({})
     .toArray()
     .then((data) => {
-      res.send(data);
+      var arr = [];
+      data.map((n) => {
+        entry = [
+          n.lap,
+          n.name,
+          n.laptime,
+          n.pitstoptime,
+          n.prevelapsed,
+          n.position,
+          n.probability,
+        ];
+        arr.push(entry);
+      });
+      res.send(arr);
     });
 });
 
