@@ -50,6 +50,20 @@ let driverSelected = [
 ];
 
 let buttonCount = 0;
+let currVals =
+  //lap, name, laptime, pitstoptime, totaltime, position, win percent
+  fetch(
+    "http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/retrieveCurrData",
+    {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
+
 let testTimes = [
   [57, "Sebastian Vettel 🇩🇪", 88.142, 0, 4962.963, 1],
   [57, "Valtteri Bottas 🇫🇮", 87.507, 0, 4975.415, 2],
