@@ -53,6 +53,7 @@ let parseFront = [0, 11, 14, 11, 14, 18, 18, 15, 19, 1, 1, 1, 1];
 let parseEnd = [0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 3];
 
 let buttonCount = 0;
+<<<<<<< HEAD
 let racerArr = Array(20)
   .fill()
   .map(() => Array(12));
@@ -67,6 +68,22 @@ let currVals =
       console.log(data);
       racerArr.push(data);
     });
+=======
+let currVals =
+  //lap, name, laptime, pitstoptime, totaltime, position, win percent
+  fetch(
+    "https://damp-sierra-23787.herokuapp.com/http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/retrieveCurrData",
+    {
+      mode: "cors", // no-cors, *cors, same-origin
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  )
+    .then((val) => val.json)
+    .then((result) => console.log(result));
+>>>>>>> a1c06b819e2340e2c4b0fc1682490182a879c9a4
 
 let testTimes = [
   [57, "Sebastian Vettel 🇩🇪", 88.142, 0, 4962.963, 1],
