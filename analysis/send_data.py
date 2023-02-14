@@ -14,10 +14,14 @@ for (index, row) in out.iterrows():
     position = row['position']
     probability = [row['prob_up'], row['prob_down'], row['prob_same'], row['prob_podium'], row['prob_win']]
 
-    requests.post(
-        f'http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/addRacerData?name={name}&lap={lap}&laptime={laptime}&pitstoptime={pitstoptime}&prevelapsed={prevelapsed}&position={position}&probability={probability}'
-    )
-    
-    if out.iloc[index + 1]['lap_index'] > curr_lap:
-        curr_lap = lap
-        time.sleep(90)
+    if lap in (57, 56, 55, 54):
+        requests.post(
+            f'http://ec2-3-22-63-209.us-east-2.compute.amazonaws.com:8080/addRacerData?name={name}&lap={lap}&laptime={laptime}&pitstoptime={pitstoptime}&prevelapsed={prevelapsed}&position={position}&probability={probability}'
+        )
+        time.sleep(10)
+        
+    # if out.iloc[index + 1]['lap_index'] > curr_lap:
+    #     if (out.iloc[index + 1]['lap_index'] > 4):
+    #         break
+    #     curr_lap = lap
+        
