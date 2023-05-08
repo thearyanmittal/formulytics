@@ -3,9 +3,6 @@
 A convenient way of keeping up with your favorite Formula 1 racers during live races. Formulytics was built during Hacklytics 2023 (Data Science @ Georgia Tech's signature 36-hour hackathon).
 
 ## Usage
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
